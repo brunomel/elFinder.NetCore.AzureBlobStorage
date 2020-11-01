@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <!-- Element where elFinder will be created (REQUIRED) -->
+    <div id="elfinder"></div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+	
+	// Documentation for client options:
+    // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
+    
+    $(document).ready(function () {
+    
+        const myCommands = Object.keys(elFinder.prototype.commands);
+        const disabled = ['callback', 'chmod', 'editor', 'netmount', 'ping', 'search', 'zipdl', 'help', 'extract', 'edit', 'hidden', 'hide', 'resize', 'empty', 'preference'];
+    
+        $.each(disabled, function (i, cmd) {
+            (idx = $.inArray(cmd, myCommands)) !== -1 && myCommands.splice(idx, 1);
+        });
+        
+        const options = {
+            url: '/el-finder/azure-blob-storage/connector',
+            rememberLastDir: true,
+            commands: myCommands,
+            "lang": "en",
+            "uiOptions": {
+                "toolbar": [
+                    ["back", "forward", "up"],
+                    ["mkdir", "upload"],
+                    ["open", "download",],
+                    ["info", "quicklook"],
+                    ["copy", "cut", "paste"],
+                    ["rm", "rename"],
+                    ['view', 'sort']
+                ]
+            },
+            
+        };
+        
+        $('#elfinder').elfinder(options);
+    });
+	
+    </script>
+
+}
